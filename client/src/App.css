@@ -1,5 +1,4 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -25,7 +24,7 @@ body {
   display: flex;
   align-items: flex-start;
   /* place-items: center; */
-  min-width: 320px;
+  /* min-width: 320px; */
   min-height: 100vh;
 }
 
@@ -85,5 +84,11 @@ form button{
 @media screen and (width < 960px) {
   .main-container{
     width: 70dvw;
+  }
+}
+
+@media screen and (width < 490px) {
+  .main-container{
+    width: 90dvw;
   }
 }
