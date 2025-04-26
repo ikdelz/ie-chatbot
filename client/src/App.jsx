@@ -45,9 +45,9 @@ function App() {
       <h3>IE AI CHATBOT</h3>
       <form action={formAction}>
         <textarea placeholder="Enter the prompt here..." name="prompt" />
-        <button>Send</button>
+        <button>Chat</button>
       </form>
-      {isPending && <p>Loading....</p>}
+      {isPending && <p>Generating....</p>}
       {response && response.choices.length > 0 && (
         <div className="response">
           {response.choices[0].message.reasoning.split("\n").map((p) => (
