@@ -1,8 +1,10 @@
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useCallback, useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const getResponse = async (_, formData) => {
+  const [chats, setChats] = useState([]);
+
+  const getResponse = useCallback(async (_, formData) => {
     const prompt = formData.get("prompt");
     let data;
 
@@ -14,11 +16,20 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "deepseek/deepseek-r1-zero:free",
+          model: "openai/gpt-4o-mini",
           messages: [
             {
               role: "user",
-              content: prompt,
+              content: [
+                {
+                  type: "text",
+                  text: prompt,
+                },
+                // {
+                //   type: "image",
+                //   url: ""
+                // }
+              ],
             },
           ],
         }),
@@ -34,27 +45,50 @@ function App() {
       alert("Request Failed, Try again!");
     }
 
+    if (data && data.choices.length > 0) {
+      setChats((prevcharts) => [
+        ...prevcharts,
+        {
+          title: prompt,
+          response: data.choices[0].message.content,
+        },
+      ]);
+    }
+
     return data;
-  };
+  }, []);
 
   const [response, formAction, isPending] = useActionState(getResponse, null);
-  // console.log(response)
+  console.log(chats);
 
   return (
     <div className="main-container">
       <h3>IE AI CHATBOT</h3>
       <form action={formAction}>
-        <textarea placeholder="Enter the prompt here..." name="prompt" />
+        <textarea
+          placeholder="Enter the prompt here..."
+          name="prompt"
+          onInput={(e) => {
+            e.target.style.height = "auto";
+            e.target.style.height = `${e.target.scrollHeight}px`;
+          }}
+        />
         <button>Chat</button>
       </form>
       {isPending && <p>Generating....</p>}
-      {response && response.choices.length > 0 && (
-        <div className="response">
-          {response.choices[0].message.reasoning.split("\n").map((p) => (
-            <p className="res-paragraph">{p}</p>
-          ))}
-        </div>
-      )}
+      {chats.length > 0 &&
+        chats.map((chat, index) => (
+          <div className="response" key={index}>
+            <p className="title">{chat.title}</p>
+            <div className="response-body">
+              {chat.response.split("\n").map((p, i) => (
+                <p className="res-paragraph" key={i}>
+                  {p}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
     </div>
   );
 }

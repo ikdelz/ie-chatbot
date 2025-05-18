@@ -53,6 +53,7 @@ form textarea{
   font-family: Tahoma, Geneva, Verdana, sans-serif;
   resize: vertical;
   margin-right: 15px;
+  overflow: hidden;
 }
 
 form button{
@@ -75,6 +76,14 @@ form button{
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+}
+
+.response .title{
+  align-self: flex-end;
+  background-color: #3c3c3c;
+  padding: 5px 10px;
+  border-radius: 10px;
+  width: 70%;
 }
 
 .response p{
