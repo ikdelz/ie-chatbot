@@ -63,7 +63,7 @@ function App() {
 
   return (
     <div className="main-container">
-      <h3>IE AI CHATBOT</h3>
+      <h3>AI CHATBOT</h3>
       <form action={formAction}>
         <textarea
           placeholder="Enter the prompt here..."
